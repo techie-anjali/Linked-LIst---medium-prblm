@@ -1,0 +1,51 @@
+class Solution {
+  
+
+       
+    public ListNode reverse(ListNode head){
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        ListNode newHead = reverse(head.next);
+        ListNode front = head.next;
+        front.next = head;
+        head.next = null;
+
+        return newHead;
+    }
+
+    public boolean isPalindrome(ListNode head) {
+
+        if(head == null || head.next == null) return true;
+
+        ListNode fast = head;
+        ListNode slow = head;
+
+        // fix condition (avoid null pointer)
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+
+        // reverse second half
+        ListNode newHead = reverse(slow);
+
+        ListNode first = head;
+        ListNode second = newHead;
+
+        // compare
+        while(second != null){
+            if(first.val != second.val){
+                reverse(newHead); // restore
+                return false;
+            }
+            first = first.next;
+            second = second.next;
+        }
+
+        reverse(newHead); // restore
+        return true;
+    }
+}
+  
